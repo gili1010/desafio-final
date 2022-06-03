@@ -3,7 +3,11 @@ function generarId() {
     return `${Date.now()}`
   }
 
-  const carritos = []
+  const carritos = [
+    {
+      "productos": []
+    }
+  ]
   
   const productos = [
       {
@@ -143,30 +147,35 @@ function generarId() {
           }
           return carritoBuscado.productos
       },
-      agregarProductoCarrito: (datos,idcarrito) => {
+      agregarProductoCarrito: (datos) => {
         // deberia validar cosas
         // si ya existe? no la agrego
         // si le faltan datos? no la agrego
         // si algun dato tiene un formato invalido? no la agrego 
         const productoNuevo = datos
         productoNuevo.id = generarId()
-        carritos.push(productoNuevo)
-        return carritos
+        for( prod of carritos){
+          prod.productos.push(productoNuevo)
+        }
+        //carritos.productos.push(productoNuevo)
+        return productoNuevo
     },
       borrarProdCarrito: (id,id_prod) => {
-        const indiceBuscado = carritos.findIndex(p => p.idcarrito == id)
+        const indiceBuscado = carritos.find(p => p.idcarrito == id)
         if (indiceBuscado === -1) {
-            const error = new Error('no existe un producto con ese id')
+            const error = new Error('no existe un carrito con ese id')
             throw error
         }
         const prodSearch = indiceBuscado.productos.findIndex((obj) => obj.id == id_prod)
-  
-          if(prodSearch<0) {
-            return error
-        }
 
-        carritos.splice(prodSearch, 1)
+              if(prodSearch<0) {
+                return error
+
+            }
+              indiceBuscado.productos.splice(prodSearch, 1)
+
+            }
+        
     }
-  }
   
   module.exports = { dbproductos }

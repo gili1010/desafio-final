@@ -14,6 +14,10 @@ app.use(routerApiProductos)
 //Carrito
 app.use(routerApiCarrito)
 
+app.all('*', (req, res) => {
+    res.status(404).json({ERROR: `Ruta ${req.url} con el metodo ${req.method} no implementada!`})
+})
+
 const PORT = 8080
 const server = app.listen(PORT, () => {
     console.log(`escuchando en el puerto ${server.address().port}`)
